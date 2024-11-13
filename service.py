@@ -2,8 +2,6 @@ import json
 import re
 import signal
 import configparser
-from rabbitmq import RabbitMQ
-import sys
 from pathlib import Path
 
 class SignalHandler:
@@ -37,22 +35,10 @@ urls = [
     'https://books.toscrape.com/catalogue/sharp-objects_997/index.html',
 ]
 
-def callback(ch, method, properties, body):
-    print(f"Received message: {body}")
-    
 index = 0
 while signal_handler.can_run():
-    rabbitmq = RabbitMQ(host=host, user=user, password=password, port=port)
-    try:
-        print("Connection to RabbitMQ established successfully.")
-        rabbitmq.consume(queue_name=queue_event, callback=callback)
-    except Exception as e:
-        print(f"Failed to establish connection to RabbitMQ: {e}")
-        sys.exit(1)
-    finally:
-        rabbitmq.close()
-
-
+    url = urls[index % len(urls)]
+    index += 1
 
   #  print('Scraping url', url)
  

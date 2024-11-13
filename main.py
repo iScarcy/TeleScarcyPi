@@ -1,15 +1,15 @@
-import configparser
 from rabbitmq import RabbitMQ
+import configparser
 import sys
+
 
 def callback(ch, method, properties, body):
     print(f"Received message: {body}")
-
+   
 def main():
     config = configparser.ConfigParser()
     config.sections()
     config.read('config.ini')
-    config.sections()
     host     = config['RABBIT']['host']
     user     = config['RABBIT']['user']
     port = config['RABBIT']['port']
