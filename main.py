@@ -1,11 +1,20 @@
 from rabbitmq import RabbitMQ
+from tele import TeleP
+import json 
 import configparser
 import sys
+ 
+# Channel ID Sample: -1001829542722
 
+ 
 
 def callback(ch, method, properties, body):
-    print(f"Received message: {body}")
-   
+    print(" [x] Received %r" % json.loads(body))
+    data = json.loads(body)
+    msg = data["msg"]
+    print(msg)
+    t = TeleP(msg)
+    
 def main():
     config = configparser.ConfigParser()
     config.sections()
