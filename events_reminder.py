@@ -1,36 +1,37 @@
 from tele import TeleP
 from datetime import date
+from datetime import datetime
 import requests
     
-import json 
-import configparser
-import sys
 
 def reminder(today):
-    print(today)
+    
     url = "http://scarcypi:3002/api/eventi/today/" + today
     print(url)
     data = requests.get(url).json() 
     
-
+    todayDate = datetime.strptime(today, '%Y-%m-%d').date()
     # Iterate through the JSON array
     for item in data:
         msg = ""
+        dateEvent = datetime.strptime(item["data"], '%Y-%m-%d').date()
+        print(item["type"])
         match(item["type"]):
             case "Compleanno":
-                anni = date(today).year - date(item["data"]).year  
+                anni = todayDate.year - dateEvent.year  
                 msg = "Oggi " + item["description"] + " compie " + str(anni) + " anni" 
                 print(msg)
-                return
+                
             case "Onomastico":
                 msg = "Oggi è l'onomastico di " + item["description"]  
                 print(msg)
+               
             case _:
                 msg = "Evento di oggi " + str(item["data"]) + ": " + item["type"] + " di " + item["description"]    
                 print(msg)
-                return
+              
         t = TeleP(msg)
 
 if __name__ == "__main__":
-    oggi = "2025-03-19"#str(date.today())
+    oggi = str(date.today())
     reminder(today= oggi)
