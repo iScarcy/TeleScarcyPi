@@ -1,3 +1,4 @@
+# ...existing code...
 from tele import TeleP
 from datetime import date
 from datetime import datetime
@@ -43,6 +44,7 @@ def reminder(event_type, event_date):
                 msg = "Evento di oggi " + str(item["data"]) + ": " + item["type"] + " di " + item["description"]
                 print(msg)
                 TeleP(msg)
+# ...existing code...
 
     logger.info("*** Events reminder, END ***")
 
