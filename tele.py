@@ -5,7 +5,7 @@ import configparser
 
 config = configparser.ConfigParser()
 config.sections()
-config.read('config.ini')
+config.read('configs.ini')
 # Channel ID Sample: -1001829542722
 TOKEN   = config['TELEGRAM']['TelegramAccessTocken']
 chat_id = config['TELEGRAM']['TelegramChatId']

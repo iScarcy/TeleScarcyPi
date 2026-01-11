@@ -18,7 +18,7 @@ def callback(ch, method, properties, body):
 def main():
     config = configparser.ConfigParser()
     config.sections()
-    config.read('config.ini')
+    config.read('configs.ini')
     host     = config['RABBIT']['host']
     user     = config['RABBIT']['user']
     port = config['RABBIT']['port']
