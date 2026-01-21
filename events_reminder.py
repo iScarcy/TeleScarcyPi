@@ -13,6 +13,7 @@ def reminder(event_type, event_date, log):
     print(event_date)
     url = "http://scarcypi:3002/api/eventi/"+ event_type + "/" + event_date
     print(url)
+    print(event_type)
     data = requests.get(url).json()
 
     if not data:
@@ -26,18 +27,16 @@ def reminder(event_type, event_date, log):
     for item in data:
         msg = ""
         item_date_obj = date.fromisoformat(item["data"])
-        match(item["type"]):
-            case "Compleanno":
-                # Calcolo età considerando mese/giorno
-                anni = event_date_obj.year - item_date_obj.year - (
-                    (event_date_obj.month, event_date_obj.day) < (item_date_obj.month, item_date_obj.day)
-                )
-                msg = "Oggi " + item["description"] + " compie " + str(anni) + " anni"
-                # non return per gestire eventuali altri eventi nella lista
-            case "Onomastico":
-                msg = "Oggi è l'onomastico di " + item["description"]
+                
+        match(event_type):
+            case "today":
+                msg =  "Evento di oggi: " + item["type"] + " di " + item["description"] 
+            case "data":
+                msg =  "Evento del " + item["data"][5:10] + ": " + item["type"] + " di " +  item["description"] 
+            case "month":
+                msg =  "Evento del " + item["data"][5:10] + ": " + item["type"] + " di " +  item["description"] 
             case _:
-                msg = "Evento di oggi " + str(item["data"]) + ": " + item["type"] + " di " + item["description"]
+                msg = "Evento del " + item["data"][5:10] + ": " + item["type"] + " di " +  item["description"] 
         TeleP(msg)
         logger.info(msg)
 
